@@ -1,1 +1,9 @@
-<Solution />
+<Solution>
+  <Folder Name="/Services/" />
+  <Folder Name="/Services/Ordering/">
+    <Project Path="Services/Ordering/Ordering.API/Ordering.API.csproj" Id="b4fe9172-2b73-4961-bba0-c3c2f849ce23" />
+    <Project Path="Services/Ordering/Ordering.Application/Ordering.Application.csproj" Id="ad4484a8-8d12-493b-826f-a28e668419ef" />
+    <Project Path="Services/Ordering/Ordering.Domain/Ordering.Domain.csproj" Id="eea533b8-005c-4696-90a7-c8f26770e2a8" />
+    <Project Path="Services/Ordering/Ordering.Infrastructure/Ordering.Infrastructure.csproj" Id="2887dd8d-677d-44d2-af92-b87b433f270b" />
+  </Folder>
+</Solution>
