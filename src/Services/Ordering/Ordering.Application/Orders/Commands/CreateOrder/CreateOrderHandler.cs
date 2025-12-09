@@ -1,10 +1,31 @@
 ﻿
+using Microsoft.AspNetCore.Http.HttpResults;
+using Ordering.Application.Exceptions;
+using Ordering.Domain.Models;
+
 namespace Ordering.Application.Orders.Commands.CreateOrder;
 
 public class CreateOrderHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateOrderCommand, CreateOrderResult>
 {
     public async Task<CreateOrderResult> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
    {
+       // Check if an order with the same OrderName already exists for this customer
+
+       var orderDto = command.Order;
+
+        bool exists = await dbContext.Orders
+            .AnyAsync(o => o.CustomerId ==CustomerId.Of(orderDto.CustomerId)
+                           && o.OrderName ==OrderName.Of( orderDto.OrderName),
+                      cancellationToken);
+
+        if (exists)
+        {
+            throw new OrderAlreadyExistsException(
+                message: "An order with the same name already exists for this customer.",
+                details: $"CustomerId: {orderDto.CustomerId}, OrderName: {orderDto.OrderName}"
+            );
+        }
+        // Create new order
 
         var order = CreateNewOrder(command.Order);
         dbContext.Orders.Add(order);

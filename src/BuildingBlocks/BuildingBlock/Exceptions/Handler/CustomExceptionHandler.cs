@@ -37,6 +37,12 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IE
                 exception.GetType().Name,
                 context.Response.StatusCode = StatusCodes.Status404NotFound
             ),
+            DuplicateRequestException => (
+              exception.Message,
+              exception.GetType().Name,
+              context.Response.StatusCode = StatusCodes.Status409Conflict
+          ),
+
             _ => (
                exception.Message,
                 exception.GetType().Name,
