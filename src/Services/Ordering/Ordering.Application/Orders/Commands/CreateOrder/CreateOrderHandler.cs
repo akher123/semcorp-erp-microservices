@@ -1,9 +1,35 @@
-﻿namespace Ordering.Application.Orders.Commands.CreateOrder;
+﻿
+namespace Ordering.Application.Orders.Commands.CreateOrder;
 
-public class CreateOrderHandler : ICommandHandler<CreateOrderCommand, CreateOrderResult>
+public class CreateOrderHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateOrderCommand, CreateOrderResult>
 {
-    public Task<CreateOrderResult> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+    public async Task<CreateOrderResult> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
+   {
+
+        var order = CreateNewOrder(command.Order);
+        dbContext.Orders.Add(order);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+       return new CreateOrderResult(order.Id.Value);
+    }
+
+    private Order CreateNewOrder(OrderDto orderDto)
     {
-        throw new NotImplementedException();
+
+        var newOrder = Order.Create(id: OrderId.Of(Guid.NewGuid()),
+            customerId: CustomerId.Of(orderDto.CustomerId),
+            orderName: OrderName.Of(orderDto.OrderName),
+            emailAddress: EmailAddress.Of(orderDto.EmailAddress
+            ));
+
+        foreach (var orderItem in orderDto.OrderItems)
+        {
+            newOrder.Add(
+                productId: ProductId.Of(orderItem.ProductId),
+                quantity: orderItem.Quantity,
+                price: orderItem.Price);
+        }
+
+        return newOrder;
     }
 }

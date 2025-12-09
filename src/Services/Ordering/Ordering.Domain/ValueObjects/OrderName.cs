@@ -2,7 +2,7 @@
 
 public record OrderName
 {
-    private const int DefaultMinLength = 7;
+    private const int DefaultMinLength = 10;
     public string Value { get; }
     private OrderName(string value)
     {
@@ -12,7 +12,7 @@ public record OrderName
     public static OrderName Of(string value)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(value);
-        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, DefaultMinLength);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Length, DefaultMinLength);
 
         return new OrderName(value);
     }

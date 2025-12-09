@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using BuildingBlock.Exceptions.Handler;
+using System.Reflection;
 
 namespace Ordering.API;
 
@@ -6,19 +7,15 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApiServices(this IServiceCollection services)
     {
-        // Register API services here
-        services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-        });
-
+        services.AddCarter();
+        services.AddExceptionHandler<CustomExceptionHandler>();
         return services;
     }
 
     public static WebApplication UseApiServices(this WebApplication app)
     {
-        // Configure API middleware here
-
+        app.MapCarter();
+        app.UseExceptionHandler(options => { });
         return app;
     }
 }

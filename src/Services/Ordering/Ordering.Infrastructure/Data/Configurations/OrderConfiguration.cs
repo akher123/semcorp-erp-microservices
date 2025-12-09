@@ -30,86 +30,13 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             });
 
         builder.ComplexProperty(
-        o => o.ShippingAddress, addressBuilder =>
-        {
-            addressBuilder.Property(a => a.FirstName)
-                .HasMaxLength(50)
-                .IsRequired();
-
-            addressBuilder.Property(a => a.LastName)
-                 .HasMaxLength(50)
-                 .IsRequired();
-
-            addressBuilder.Property(a => a.EmailAddress)
-               .HasMaxLength(50)
-               .IsRequired();
-
-            addressBuilder.Property(a => a.AddressLine)
-              .HasMaxLength(180)
-              .IsRequired();
-
-            addressBuilder.Property(a => a.Country)
-                .HasMaxLength(50)
-                .IsRequired();
-            addressBuilder.Property(a => a.State)
-                .HasMaxLength(50)
-                .IsRequired();
-
-            addressBuilder.Property(a => a.ZipCode)
-                 .HasMaxLength(50)
-                 .IsRequired();
-        });
-
-        builder.ComplexProperty(
-          o => o.BillingAddress, addressBuilder =>
-          {
-              addressBuilder.Property(a => a.FirstName)
-                  .HasMaxLength(50)
-                  .IsRequired();
-
-              addressBuilder.Property(a => a.LastName)
-                   .HasMaxLength(50)
-                   .IsRequired();
-
-              addressBuilder.Property(a => a.EmailAddress)
-                 .HasMaxLength(50)
-                 .IsRequired();
-
-              addressBuilder.Property(a => a.AddressLine)
-                .HasMaxLength(180)
-                .IsRequired();
-
-              addressBuilder.Property(a => a.Country)
-                  .HasMaxLength(50)
-                  .IsRequired();
-              addressBuilder.Property(a => a.State)
-                  .HasMaxLength(50)
-                  .IsRequired();
-
-              addressBuilder.Property(a => a.ZipCode)
-                   .HasMaxLength(50)
-                   .IsRequired();
-          });
-
-        builder.ComplexProperty(
-            o => o.Payment, paymentBuilder =>
-            {
-                paymentBuilder.Property(p => p.CardName)
-                .HasMaxLength(50);
-
-                paymentBuilder.Property(p => p.CardNumber)
-               .HasMaxLength(24)
-               .IsRequired();
-
-                paymentBuilder.Property(p => p.Expiration)
-                   .HasMaxLength(10);
-                paymentBuilder.Property(p => p.CVV)
-                   .HasMaxLength(3);
-
-                paymentBuilder.Property(p => p.PaymentMethod);
-
-            });
-
+           o => o.EmailAddress, emailbuilder =>
+           {
+               emailbuilder.Property(n => n.Value)
+                          .HasColumnName(nameof(Order.EmailAddress))
+                          .HasMaxLength(256)
+                          .IsRequired();
+           });
 
         builder.Property(o => o.Status)
             .HasDefaultValue(OrderStatus.Draft)

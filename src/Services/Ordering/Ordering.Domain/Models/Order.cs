@@ -7,9 +7,7 @@ public class Order : Aggregate<OrderId>
     public IReadOnlyList<OrderItem> OrderItems => _orderItems.AsReadOnly();
     public CustomerId CustomerId { get; set; } = default!;
     public OrderName OrderName { get; set; } = default!;
-    public Address ShippingAddress { get; set; } = default!;
-    public Address BillingAddress { get; set; } = default!;
-    public Payment Payment { get; set; } = default!;
+    public EmailAddress EmailAddress { get; set; } = default!;
     public OrderStatus Status { get; set; } = OrderStatus.Pending;
     public decimal TotalPrice
     {
@@ -17,29 +15,25 @@ public class Order : Aggregate<OrderId>
         private set { }
     }
 
-    public static Order Create(OrderId orderId, CustomerId customerId, OrderName orderName, Address shippingAddress, Address billingAddress, Payment payment)
+    public static Order Create(OrderId id, CustomerId customerId, OrderName orderName, EmailAddress emailAddress)
     {
         var order = new Order
         {
-            Id = orderId,
+            Id = id,
             CustomerId = customerId,
             OrderName = orderName,
-            ShippingAddress = shippingAddress,
-            BillingAddress = billingAddress,
-            Payment = payment,
+            EmailAddress = emailAddress,
             Status = OrderStatus.Pending,
         };
         order.AddDomainEvent(new OrderCreatedEvent(order));
         return order;
     }
-    public void Update(OrderName orderName, Address shippingAddress, Address billingAddress, Payment payment, OrderStatus status)
+    public void Update(OrderName orderName, EmailAddress emailAddress, OrderStatus status)
     {
         var order = new Order
         {
             OrderName = orderName,
-            ShippingAddress = shippingAddress,
-            BillingAddress = billingAddress,
-            Payment = payment,
+            EmailAddress = emailAddress,
             Status = status,
         };
         AddDomainEvent(new OrderUpdatedEvent(order));
