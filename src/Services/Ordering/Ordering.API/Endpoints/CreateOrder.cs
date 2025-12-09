@@ -9,7 +9,9 @@ public class CreateOrderModule : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        var ordersGroup = app.MapGroup("/api/v1/orders");
+        var ordersGroup = app.MapGroup("/api/v1/orders")
+                             .WithTags("Orders");
+
         ordersGroup.MapPost("/", async (CreateOrderRequest request, ISender sender) =>
         {
                 var command = request.Adapt<CreateOrderCommand>();
