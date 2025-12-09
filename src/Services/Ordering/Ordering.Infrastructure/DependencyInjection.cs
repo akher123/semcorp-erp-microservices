@@ -15,10 +15,11 @@ public static class DependencyInjection
 
         services.AddDbContext<ApplicationDbContext>((sp,options) =>
         {
-            options.AddInterceptors(sp.GetService<ISaveChangesInterceptor>());
-
+            var interceptors = sp.GetServices<ISaveChangesInterceptor>();
+            options.AddInterceptors(interceptors);
             options.UseSqlServer(connectionString);
- 
+
+
         });
       //  services.AddScoped<ApplicationDbContext>();
 
