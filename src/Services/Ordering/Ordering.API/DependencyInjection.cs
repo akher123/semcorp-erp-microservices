@@ -12,6 +12,7 @@ public static class DependencyInjection
     public static WebApplication UseApiServices(this WebApplication app)
     {
         // Configure API middleware here
+
         return app;
     }
 }
