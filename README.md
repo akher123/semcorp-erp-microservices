@@ -5,7 +5,7 @@ Part 2: DevOps & Infrastructure Design:
 <img width="1053" height="595" alt="image" src="https://github.com/user-attachments/assets/b3d675c5-ea49-41f0-9429-f62222df4b67" />
 
 
-# Code Review Summary
+## Part3: Code Review & Mentorship Summary
 
 ## SQL Injection Vulnerability
 
@@ -23,7 +23,6 @@ Example attack:
 
 **Fix:** Always use parameterized queries and never trust user input.
 
----
 
 ## Hardcoded Credentials
 
@@ -37,7 +36,6 @@ new SqlConnection("Server=myServer;Database=myDataBase;User Id=myUsername;Passwo
 
 **Fix:** Use configuration files, environment variables, or a secret manager.
 
----
 
 ## Returning `SqlDataReader` Directly
 
@@ -51,7 +49,3 @@ new SqlConnection("Server=myServer;Database=myDataBase;User Id=myUsername;Passwo
 
 * API → Service → Repository structure
 * Convert results to objects, map to DTOs, return DTOs
-
----
-
-Let me know if you want it even shorter or more formatted.
