@@ -9,6 +9,9 @@ public static class DependencyInjection
     {
         services.AddCarter();
         services.AddExceptionHandler<CustomExceptionHandler>();
+
+
+
         return services;
     }
 
