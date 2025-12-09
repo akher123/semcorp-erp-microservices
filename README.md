@@ -2,84 +2,50 @@
 Technical Assessment: Senior Backend &amp; Infrastructure Engineer
 
 Part 2: DevOps & Infrastructure Design:
-<img width="1053" height="595" alt="image" src="https://github.com/user-attachments/assets/b3d675c5-ea49-41f0-9429-f62222df4b67" />
+# Code Review Summary
 
+## SQL Injection Vulnerability
 
-Security Issue — SQL Injection Vulnerability
-❌ Problem
+**Problem:** Query uses string concatenation, allowing SQL injection.
 
-The query is built using string concatenation:
-
+```csharp
 var cmd = new SqlCommand("SELECT * FROM Orders WHERE OrderId = '" + orderId + "'", conn);
+```
 
-
-This allows a malicious user to inject SQL.
 Example attack:
 
-orderId = "123'; DROP TABLE Orders; --"
+```
+"123'; DROP TABLE Orders; --"
+```
 
-✅ Explanation for the Junior Developer
+**Fix:** Always use parameterized queries and never trust user input.
 
-Always use parameterized queries (or stored procedures).
+---
 
-Never trust client inputs — validate and sanitize everything.
+## Hardcoded Credentials
 
-🔑 Security Issue — Hardcoded Credentials in Code
-❌ Problem
+**Problem:** Connection string contains embedded username/password.
 
-The connection string is directly embedded in the code:
-
+```csharp
 new SqlConnection("Server=myServer;Database=myDataBase;User Id=myUsername;Password=myPassword;");
+```
 
-⚠️ Risks
+**Risk:** Secrets can leak via Git or logs.
 
-Credentials can leak through Git history, logs, or shared code.
+**Fix:** Use configuration files, environment variables, or a secret manager.
 
-Violates OWASP recommendations for secure secret handling.
+---
 
-✅ Explanation for the Junior Developer
+## Returning `SqlDataReader` Directly
 
-Use:
+**Problem:** Controller returns a `SqlDataReader` from the API.
 
-Configuration files
+* Cannot be serialized
+* Exposes internal schema
+* Breaks architecture layers
 
-Environment variables
+**Fix:**
 
-A secure secret manager (Azure Key Vault, AWS Secrets Manager, etc.)
+* API → Service → Repository structure
+* Convert results to objects, map to DTOs, return DTOs
 
-🚧 Performance / API Design Issue — Returning SqlDataReader Directly
-❌ Problem
-
-The controller directly queries the database and returns a SqlDataReader in the API response.
-
-⚠️ Issues
-
-The API layer should not access the database directly.
-
-SqlDataReader cannot be serialized to JSON.
-
-It becomes invalid once the database connection closes.
-
-Leaks internal database schema.
-
-Risks over-posting or exposing sensitive fields.
-
-✅ Explanation for the Junior Developer
-
-The API should only handle HTTP requests/responses.
-
-Use proper architecture:
-
-Controller → Service Layer → Data Access Layer (Repository)
-
-Materialize the result into objects.
-
-Map entities into DTOs.
-
-Return DTOs from the API to ensure:
-
-Safe serialization
-
-No schema leakage
-
-Only intended fields are exposed
