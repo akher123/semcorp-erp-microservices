@@ -8,3 +8,5 @@ global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Ordering.Domain.Models;
 global using Ordering.Domain.ValueObjects;
 global using Microsoft.AspNetCore.Builder;
+global using MediatR;
+global using Ordering.Domain.Abstractions;

@@ -9,15 +9,16 @@ public static class DependencyInjection
         (this IServiceCollection services,IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("Database");
-    
-        services.AddDbContext<ApplicationDbContext>(options =>
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventInterceptor>();
+
+        services.AddDbContext<ApplicationDbContext>((sp,options) =>
         {
-           
-            options.AddInterceptors(new AuditableEntityInterceptor());
+            options.AddInterceptors(sp.GetService<ISaveChangesInterceptor>());
 
             options.UseSqlServer(connectionString);
-
-                 
+ 
         });
       //  services.AddScoped<ApplicationDbContext>();
 
