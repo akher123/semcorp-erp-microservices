@@ -9,4 +9,7 @@
     <Project Path="Services/Ordering/Ordering.Domain/Ordering.Domain.csproj" Id="eea533b8-005c-4696-90a7-c8f26770e2a8" />
     <Project Path="Services/Ordering/Ordering.Infrastructure/Ordering.Infrastructure.csproj" Id="2887dd8d-677d-44d2-af92-b87b433f270b" />
   </Folder>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
 </Solution>
