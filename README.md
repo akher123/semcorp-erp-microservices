@@ -87,6 +87,20 @@ Make sure all referenced IDs exist in the database, e.g., customerId and product
 
 ## Part3: Code Review & Mentorship Summary
 
+```csharp
+[HttpGet("get-order")]
+public IActionResult GetOrder(string orderId)
+{
+    // Junior Dev Comment: Just getting the data quickly
+    using (var conn = new SqlConnection("Server=myServer;Database=myDataBase;User Id=myUsername;Password=myPassword;"))
+    {
+        conn.Open();
+        var cmd = new SqlCommand("SELECT * FROM Orders WHERE OrderId = '" + orderId + "'", conn);
+        var reader = cmd.ExecuteReader();
+        return Ok(reader);
+    }
+}
+```
 ## SQL Injection Vulnerability
 
 **Problem:** Query uses string concatenation, allowing SQL injection.
