@@ -46,7 +46,7 @@ A robust **Order Ingestion Microservice** built with **.NET 10**, following **Cl
 ## Architecture
 ## Use Swagger to Test the API Endpoint with a JSON Body
 
-You can test your API endpoints directly in Swagger by sending a JSON request body. Follow these steps:
+You can test API endpoints directly in Swagger by sending a JSON request body. Follow these steps:
 
 Open the Swagger UI for your API (usually at /swagger or /swagger/index.html).
 
