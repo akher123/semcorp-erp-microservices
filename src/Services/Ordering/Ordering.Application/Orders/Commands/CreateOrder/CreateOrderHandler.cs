@@ -12,7 +12,7 @@ public class CreateOrderHandler(IApplicationDbContext dbContext) : ICommandHandl
 
         bool exists = await dbContext.Orders
                          .AnyAsync(o => o.CustomerId ==CustomerId.Of(orderDto.CustomerId)
-                         && o.OrderName ==OrderName.Of( orderDto.OrderName),cancellationToken);
+                         && o.OrderName ==OrderName.Of(orderDto.OrderName),cancellationToken);
         if (exists)
         {
             throw new OrderAlreadyExistsException(
@@ -20,12 +20,12 @@ public class CreateOrderHandler(IApplicationDbContext dbContext) : ICommandHandl
                 details: $"CustomerId: {orderDto.CustomerId}, OrderName: {orderDto.OrderName}"
             );
         }
+
         // Create new order
         var order = CreateNewOrder(command.Order);
         dbContext.Orders.Add(order);
         await dbContext.SaveChangesAsync(cancellationToken);
-
-       return new CreateOrderResult(order.Id.Value);
+        return new CreateOrderResult(order.Id.Value);
     }
 
     private Order CreateNewOrder(OrderDto orderDto)

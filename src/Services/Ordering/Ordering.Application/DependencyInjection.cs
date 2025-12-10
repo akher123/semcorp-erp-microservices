@@ -1,6 +1,7 @@
 ﻿using BuildingBlock.Behaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FeatureManagement;
 using System.Reflection;
 
 namespace Ordering.Application;
@@ -22,6 +23,7 @@ public static class DependencyInjection
         // Register all FluentValidation validators from the current assembly
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
+        services.AddFeatureManagement();
         return services;
     }
 }

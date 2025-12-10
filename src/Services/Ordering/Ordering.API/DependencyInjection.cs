@@ -9,13 +9,17 @@ public static class DependencyInjection
     {
         services.AddCarter();
         services.AddExceptionHandler<CustomExceptionHandler>();
+        services.AddHealthChecks();
         return services;
     }
 
     public static WebApplication UseApiServices(this WebApplication app)
     {
         app.MapCarter();
+
         app.UseExceptionHandler(options => { });
+
+        app.MapHealthChecks("/health");
         return app;
     }
 }

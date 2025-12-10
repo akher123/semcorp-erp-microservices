@@ -1,6 +1,8 @@
 ﻿
 using Ordering.Application.Data;
+using Ordering.Application.Orders.Services;
 using Ordering.Infrastructure.Data.Interceptors;
+using Ordering.Infrastructure.Integrations.Logistics;
 
 namespace Ordering.Infrastructure;
 
@@ -24,7 +26,7 @@ public static class DependencyInjection
 
 
         });
-
+        services.AddScoped<ILogisticsGateway, MockLogisticsGateway>();
         services.AddScoped<IApplicationDbContext,ApplicationDbContext>();
 
         return services;
