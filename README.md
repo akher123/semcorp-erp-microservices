@@ -83,6 +83,75 @@ Make sure all referenced IDs exist in the database, e.g., customerId and product
 ## Part 2: DevOps & Infrastructure Design:
 
 <img width="1053" height="595" alt="image" src="https://github.com/user-attachments/assets/b3d675c5-ea49-41f0-9429-f62222df4b67" />
+## Deployment Architecture & Branching Strategy
+
+This document provides an overview of the **branching strategy**, **CI/CD pipeline architecture**, and **environment flow** used for application development and deployment through **Azure DevOps Pipelines** and **Azure App Services / VMs**.
+
+---
+
+## Architecture Overview
+
+### **1. Developers & Branching Strategy**
+
+- **Main Branch**  
+  Primary development branch where stable code is merged.
+
+- **Trunk Branch**  
+  Serves as an integration branch for combining features.
+
+- **UAT Branch**  
+  Dedicated branch for **User Acceptance Testing**.
+
+- **Production Branch**  
+  Contains production-ready code used for live deployment.
+
+- **Azure Pipeline PR**  
+  Pull Request validation pipelines used for code review, linting, unit tests, and static analysis.
+
+- **Azure Pipeline CI**  
+  Continuous Integration pipeline that builds and tests the application after a successful merge.
+
+---
+
+### **2. Azure Pipeline Architecture**
+
+- **Key Vault**  
+  Secure storage of secrets, certificates, and sensitive configuration values.
+
+- **Deployment Automation App**  
+  Centralized automation service handling deployment logic and environment promotion.
+
+- **Azure Pipeline CD**  
+  Continuous Deployment pipelines responsible for pushing code to each environment.
+
+- **Azure Monitor**  
+  Provides observability through logs, metrics, alerts, and performance monitoring.
+
+---
+
+### **3. Azure App Service / VM Environments**
+
+| Environment | Purpose |
+|------------|---------|
+| **Development Test Environment** | Initial development testing, unit tests, and integration tests. |
+| **Internal QA Environment** | Environment for internal quality assurance teams. |
+| **Client QA Test Environment** | Used by clients for acceptance testing and validation. |
+| **Client Production Environment** | Live customer-facing environment. |
+
+---
+
+## 🔄 Workflow Overview
+
+1. Developers create feature branches and submit **Pull Requests** into `Main` or `Trunk`.
+2. **Azure Pipeline PR** runs automated validation checks.
+3. After merging, **Azure Pipeline CI** builds and tests the application.
+4. **Deployment Automation App** orchestrates the deployment flow.
+5. **Azure Pipeline CD** deploys the application sequentially to:
+   - Development Test
+   - Internal QA
+   - Client QA
+   - Client Production
+6. **Azure Monitor** provides insights, metrics, and alerts for production systems.
 
 
 ## Part3: Code Review & Mentorship Summary
